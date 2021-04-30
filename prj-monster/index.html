@@ -20,7 +20,10 @@
       <section id="monster" class="container">
         <h2>Monster Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value" :style="{ width: monsterHealth + '%' }"></div>
+          <div
+            class="healthbar__value"
+            :style="{ width: monsterHealth + '%' }"
+          ></div>
         </div>
       </section>
       <section id="player" class="container">
@@ -29,15 +32,39 @@
           <div class="healthbar__value" :style="playerBarStyles"></div>
         </div>
       </section>
-      <section id="controls">
+      <section class="container" v-if="winner">
+        <h3>Game over</h3>
+        <h2 v-if="winner=='player'">You Won!</h2>
+        <h2 v-else-if="winner=='monster'">You lost</h2>
+        <h2 v-else="winner=='draw'">it's a draw</h2>
+        <button @click="startGame">Start a new Game :)</button>
+      </section>
+      <section id="controls" v-else>
         <button @click="attackMonster">ATTACK</button>
-        <button>SPECIAL ATTACK</button>
-        <button>HEAL</button>
-        <button>SURRENDER</button>
+        <button :disabled="mayUseSpecialAttack" @click="specialAttackMonster">
+          SPECIAL ATTACK
+        </button>
+        <button @click="healPlayer">HEAL</button>
+        <button @click="sureender">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>
-        <ul></ul>
+        <ul>
+          <li v-for="logs in logMassages">
+            <span
+              :class="{'log--player': logs.actionBy === 'player', 'log--monster': logs.actionBy === 'monster'}"
+              >{{ logs.actionBy === 'player' ? 'Player' : 'Monster' }}</span
+            >
+            <span v-if="logs.actionType === 'heal'">
+              heals himself for
+              <span class="log--heal">{{ logs.actionValue }}</span></span
+            >
+            <span v-else>
+              attacks and deals
+              <span class="log--damage">{{ logs.actionValue }}</span>
+            </span>
+          </li>
+        </ul>
       </section>
     </div>
   </body>
