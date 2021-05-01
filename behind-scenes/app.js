@@ -15,10 +15,27 @@ const app = Vue.createApp({
       // console.dir(this.$refs.userText);
     },
   },
+
+  beforeCreate() {
+    console.log('beforeCreate()');
+  },
+  created() {
+    console.log(' created()');
+  },
+  beforeMounted() {
+    console.log('beforeMounted()');
+  },
+  mounted() {
+    console.log('mounted()');
+  },
+  beforeUnmount() { },
+  unmount() { },
 });
 
 app.mount('#app');
-
+setTimeout(() => {
+  app.unmount();
+}, 3000);
 const app2 = Vue.createApp({
   template: `
     <p>{{ favoriteMeal }}</p>
