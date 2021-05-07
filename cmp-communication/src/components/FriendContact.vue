@@ -17,6 +17,7 @@
         {{ emailAddress }}
       </li>
     </ul>
+    <button @click="$emit('delete',id)">delete</button>
   </li>
 </template>
 
@@ -45,6 +46,7 @@ export default {
       default: false,
     },
   },
+  emits:['toggle-faveorite','delete'],
   data() {
     return {
       detailsAreVisible: false,
